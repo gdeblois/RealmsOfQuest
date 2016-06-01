@@ -1,0 +1,237 @@
+0 ifathen12
+1 forx=0to6:poke1004+x,0:next:sys8270,67:ifpeek(1002)=1thenpoke1002,0:gosub500:si=fnr(123):s=5:goto291
+2 sys8192:sys8270,77
+3 gosub500:poke36879,10:poke36869,206
+12 print"{clr}{pur}{4 down}{2 rght}JKDELMN {cbm-k}{cbm-i}FG  {shift-*}ADE":print"{pur}{2 rght}Z[TU\]ÿ_{cbm-m}{cbm-pound}VW  PO{cbm-t} "
+14 print"{down}{pur}{4 rght}{shift-*}ABCDEFGHI {cbm-@}{cbm-g}{cbm-+}":print"{pur}{4 rght}PQRSTUVWXY {shift-pound}{cbm-n}{cbm-q}
+15 print"{home}{wht}{2 rght}{2 down}psytronik presents
+17 print"{red}{8 down}{red}{rvon} (c) 2013 system iiii "
+18 print"{down}{wht}  {rvon}f1{rvof} start new game
+19 print"{down}  {rvon}f3{rvof} resume old game":sys8195:sys8201:sys8207-peek(14334)*3
+20 print"{down}  {rvon}f5{rvof} toggle music"
+21 print"{down}  {rvon}f7{rvof} change font
+22 n=rnd(1):geta$:ifa$=""then22
+23 ifa$="{f1}"thensys8207:goto100
+24 ifa$="{f3}"thensys8207:goto290
+25 ifa$="{f7}"thensys8207:goto30
+26 ifa$="{f5}"thenpoke14334,1-peek(14334):sys8207-peek(14334)*3
+29 goto22
+30 sys8192:a=peek(993):a=a+1:ifa=4thena=1
+31 poke993,a:load"rq4.font"+str$(a),peek(1020),1
+100 sys8192:clr:gosub500:x=0:gosub3000:gosub3200
+101 sys8192:sys8198
+102 a$="{9 rght}{wht}{rvof}":print"{home}"a$"create order "a$"delete quit  "a$;
+104 print"equip  rename"a$"inn    save  "a$"leave  temple"a$;
+106 print"market view":gosub510
+108 sys8192:sys8225,0,1
+109 a$="you're at the castle":gosub670:sys8228,ms
+110 sys8267,cs:gosub3100
+111 gosub530:ifa$="{left}"thencs=(cs-1)and7:goto110
+112 ifa$="{rght}"thencs=(cs+1)and7:goto110
+113 ifa$="{up}"thenms=-(ms=0)*12+ms-1:sys8228,ms:goto111
+114 ifa$="{down}"thenms=(ms+1)*-(ms<11):sys8228,ms:goto111
+116 ifa$>="1"anda$<="8"andcs<>x-1thencs=x-1:goto110
+118 ifa$="c"thenms=0:gosub192:ifc%(4,cs)=0then200
+120 ifa$="d"thenms=1:gosub192:ifc%(4,cs)<>0then270
+122 ifa$="v"thenms=11:gosub192:ifc%(4,cs)<>0thengosub570:goto101
+124 ifa$="s"thenms=9:gosub192:gosub3200:goto280
+126 ifa$="q"thenms=7:gosub192:gosub3200:goto275
+128 ifa$="m"thenms=5:gosub192:goto300
+130 ifa$="e"thenms=2:gosub192:ifc%(4,cs)>0then340
+132 ifa$="r"thenms=8:gosub192:ifc%(4,cs)>0then368
+134 ifa$="o"thenms=6:gosub192:goto370
+136 ifa$="l"thenms=4:gosub192:gosub3200:gosub640:ifathen380
+137 ifa$="i"thenms=3:gosub192:goto400
+138 ifa$="t"thenms=10:gosub192:goto700
+148 ifa$=chr$(13)thena$=mid$("cdeilmoqrstv",ms+1,1):goto118
+150 goto111
+192 sys8228,ms:return
+200 sys8192:print"{clr}{3 down}{2 rght}create a character{2 down}":forx=0to9:printtab(8);:sys8252,x
+201 print:next:forx=0to24:c%(x,cs)=0:next
+202 print"{2 down}   select your race
+204 p=8:q=6:l=6:s=0:m=9:gosub550:ifs=-1then101
+206 c%(0,cs)=s
+210 sys8192:c%(1,cs)=-(rnd(1)<.3):fory=0to5:z=0:forx=1tofnrc(y):z=z+fnr2(5.2):next
+212 ifz<fnrc(y)*6then216
+214 s=fnr2(5.2):z=z+s:ifs=6then214
+216 c%(y+8,cs)=z:next:ifc%(1,cs)=0thenc%(8,cs)=c%(8,cs)+1
+218 ifc%(1,cs)=1thenc%(13,cs)=c%(13,cs)+1
+220 print"{clr}{2 down}     ";:ifc%(1,cs)=0thenprint" ";
+221 sys8252,c%(1,cs)+10:sys8252,c%(0,cs):print"{home}{4 down}":forx=0to5
+222 print"{down}{2 rght}";:gosub560:printc%(8+x,cs):next
+224 print"{home}{6 down}";:m=0:fors=0to11:z=1:t%(s)=0:forx=0to5
+226 iffnc2(x)>c%(8+x,cs)thenz=0:x=9
+228 next:ifz=1thent%(m)=s:m=m+1:print"{13 rght}";:sys8255,s
+230 next:print"{13 rght}re-roll
+231 print"{home}{20 down}   select your class
+232 p=13:q=6:l=7:s=m:gosub550:ifs=-1then101
+234 ifs=mthen210
+236 c%(5,cs)=t%(s):sys8192:print"{clr}":gosub238:ifcp=0then101
+237 n$(cs)=n$:goto254
+238 sys8219:print"{wht}{down}  what is thy name ?":print"{down}{6 rght}";:cp=0:n$=""
+240 print"{rvon} {rvof}{left}";
+242 gosub530:ify=32andcp>0andcp<10then250
+244 ify=13then252
+246 ify=20andcp>0thencp=cp-1:n$=left$(n$,cp):print" {2 left}";:goto240
+248 ify<65ory>90orcp>9then242
+250 cp=cp+1:n$=n$+a$:printa$;:goto240
+252 print"{rvof} ":return
+254 c%(2,cs)=fnrc(6)*4+fnr(6):ifc%(0,cs)=1thenc%(2,cs)=c%(2,cs)+80
+256 c%(6,cs)=1:gosub684:c%(6,cs)=1:c%(15,cs)=fncl(0)+int(c%(12,cs)/6):gosub680
+258 iffncl(8)=1orfncl(9)=1thenc%(17,cs)=fncl(10):gosub683
+260 goto101
+270 a$="y=confirm delete":gosub670:gosub530:ifa$<>"y"then109
+272 sys8192:c%(4,cs)=0:sys8210,cs:goto108
+275 a$="y=confirm quit":gosub670:gosub530:ifa$<>"y"then109
+276 run2
+280 gosub286:ifs=-1then109
+281 gosub282:goto101
+282 sys8192:open2,peek(1020),2,"`0:rq4.save"+str$(s)+",s,w":a$=chr$(13)
+283 print#2,gp;a$;mo;a$;lv;a$;rm;a$;0;a$;cs:fory=0to7:print#2,n$(y):forx=0to24
+284 print#2,c%(x,y):next:next:forx=0to12:print#2,i%(x):next:forx=0to9:print#2,d%(x)
+285 next:close2:return
+286 a$="which slot ? (1-4)":gosub670
+287 gosub530:ify=32thens=-1:return
+288 ifx<1orx>4then287
+289 s=x:return
+290 sys8192:print"{clr}":clr:gosub500:gosub286:ifs=-1thenrun2
+291 sys8192:open2,peek(1020),2,"rq4.save"+str$(s)+",s,r":input#2,gp,mo,lv,rm,di,cs
+292 fory=0to7:input#2,n$(y):forx=0to24:input#2,c%(x,y):next:next:forx=0to12
+293 input#2,i%(x):next:forx=0to9:input#2,d%(x):next:close2:x=0:gosub3000:gosub3200:goto101
+300 sys8219:print"{down} welcome to bolzaim's {down} will you {rvon}b{rvof}uy or {rvon}s{rvof}ell
+301 gosub530:ifa$="b"then305
+302 ifa$="s"then320
+303 ifa$=" "then109
+304 goto301
+305 gosub337:forx=1to14:sys8222,0,5+x
+306 sys8237,x-si*(x=14):sys8222,16,5+x:v=fnv(x-si*(x=14))*10:gosub338:next:p=0:q=6:l=22:s=0:m=13
+307 a$="{rvon}  select item to buy ":gosub610
+308 gosub620:gosub550:ifs=-1then101
+309 i=s+1-si*(s=13):iffnv(i)*10>gpori%(12)>0then312
+310 gp=gp-fnv(i)*10:forx=0to12:ifi%(x)=0theni%(x)=i:x=99
+311 next:a$="{rvon}   you buy the item  ":x=i<14:goto313
+312 a$="{rvon}  you can't buy that ":x=1
+313 gosub610:gosub615:gosub565:ifxthen307
+314 si=fnr(124)-1:goto305
+320 gosub337:forx=0to12:sys8222,0,6+x:ifi%(x)=0thenm=x-1:x=13:goto323
+321 sys8237,i%(x):sys8222,16,6+x:v=fnv(i%(x))*5:gosub338
+322 ifx=12thenm=12
+323 next:ifm<0thengosub620:gosub630:goto101
+324 p=0:q=6:l=22:s=0:a$="{rvon}  which item to sell ":gosub610
+325 gosub620:gosub550:ifs=-1then101
+326 gp=gp+fnv(i%(s))*5:gosub635
+327 a$="{rvon}  you sell the item. ":gosub610:gosub615:goto320
+337 sys8192:print"{clr}bolzaim's market-place":return
+338 printright$("   "+str$(v),6):return
+340 gosub625:print"{rvof}viewing inventory":gosub620:a=c%(5,cs):forx=0to12:sys8222,5,6+x
+341 i=i%(x):ifi=0thenm=x-1:x=99:next:goto361
+342 y=0:t=fni(i):y=6:c=fni(i)
+344 ift<3andfncl(2+t)<(cand3)+1then355
+345 ift=1andfncl(3)=2and(cand4)=4then355
+346 ift=3andfncl(5)=0then355
+348 ift>3andc=8andfncl(6)=0then355
+350 ift>3andc=16andfncl(7)=0then355
+351 ifc%(17+t,cs)>0then355
+352 poke4231+x*22,43
+355 sys8237,i
+360 next:m=12
+361 ifm<0thengosub630:goto101
+362 sys8222,2,20:print"+= can be equipped
+363 a$="{rvon} select item to equip":gosub610:p=0:q=6:l=22:s=0
+364 gosub550:ifs=-1then101
+365 y=0:t=fni(i%(s)):ifpeek(4231+s*22)=160thengosub565:goto364
+366 c%(17+t,cs)=i%(s):gosub635:a$="{rvon}  you equip the item ":gosub610:gosub615:goto340
+368 gosub238:ifcp=0then109
+369 n$(cs)=n$:goto101
+370 foro=0to6:sys8267,o:a$="which char for #"+str$(o+1):gosub670
+371 gosub530:ifa$=" "theno=8:goto375
+372 ifx<1orx>8then371
+373 sys8192:p=x-1:a$=n$(o):n$(o)=n$(p):n$(p)=a$:forx=0to24:q=c%(x,o)
+374 c%(x,o)=c%(x,p):c%(x,p)=q:next:gosub510
+375 next:sys8192:goto109
+380 s=5:gosub282:m=64:a$="rq4.dungeon":ifpeek(992)=1thena$=a$+".24k"
+381 goto650
+400 c2=cs:sys8192:sys8225,1,1:sys8219:s=0:print"{yel}gp"gp:sys8222,11,9:print"select roo":poke4315,13:poke38107,7:print"{wht}the stables 6mo    0g":print"comfy hotel 3mo   30g":print"fancy lodge 2mo  600g":print"royal suite 1mo 9000g":forx=0to3:poke4337+x*22,16:next
+401 p=0:q=10:l=22:m=3:gosub550:gosub565:ifs<0then108
+402 x=int(10^s*s*3):ifx>gpthen401
+403 sys8219:gp=gp-x:forcs=0to7:y=c%(4,cs):ify=0ory>3then407
+404 ifc%(7,cs)>0thenc%(6,cs)=c%(6,cs)+1:c%(7,cs)=c%(7,cs)-1:c%(15,cs)=c%(15,cs)+fnr(fncl(0))+int(c%(12,cs)/6):d=c%(6,cs):ifd>=(fncl(8)andfncl(8)>0)or(d>=fncl(9)andfncl(9)>0)thenc%(17,cs)=c%(17,cs)+fncl(10)
+405 c%(3,cs)=c%(3,cs)+(4-s)-(s=0)*2:ifc%(3,cs)>11thenc%(3,cs)=c%(3,cs)-12:c%(2,cs)=c%(2,cs)+1:ifc%(2,cs)>=fnrc(6)*15andfnrc(6)>0thend=fnr(6)+7:c%(d,cs)=c%(d,cs)-fnr(3):ifc%(d,cs)<1thenc%(d,cs)=0:c%(15,cs)=0:c%(4,cs)=5:gosub680:gosub683:goto407
+406 gosub680:gosub683:gosub684
+407 c=cs:sys8267,8:gosub520:sys8267,cs:next:cs=c2:goto108
+500 dimn$(7),c%(24,7),d%(9),i%(13),t%(11):gp=700:forx=0to7:n$(x)="x":next
+502 deffnr(x)=int(rnd(1)*x+1):deffnrc(x)=peek(38400+c%(0,cs)*8+x)and15:si=fnr(124)-1
+503 deffni(x)=peek(12764+x*10+y):deffnv(x)=peek(12772+x*10)+peek(12773+x*10)*256
+504 deffncl(x)=peek(38480+c%(5,cs)*19+x)and15:deffnc2(x)=peek(38493+s*19+x)and15
+506 deffnr2(x)=int(rnd(1)*x+1.8)
+509 return
+510 forc=0to7:gosub520:next:return
+520 poke4426+c*22,49+c:sys8210,c:ifc%(4,c)=0thenreturn
+522 sys8222,2,15+c:printn$(c);:sys8222,12,15+c:printright$("  "+str$(c%(14,c)),4);
+523 print"/"mid$(str$(c%(15,c)),2);:ifc%(7,c)thenpoke4427+c*22,44-c%(7,c)
+526 poke4447+c*22,asc(mid$("gpzsd",c%(4,c)))-64:return
+530 sys8195
+531 geta$:ifa$=""then531
+532 ifa$="{f5}"thenpoke14334,1-peek(14334):on2-peek(14334)gosub3100,3200:goto531
+533 x=val(a$):y=asc(a$):return
+550 gosub565
+551 gosub530:ifa$="{up}"then556
+552 ifa$="{down}"then558
+553 ifa$=chr$(13)thenreturn
+554 ifa$=" "thens=-1:return
+555 goto551
+556 gosub565:s=s-1:ifs<0thens=m
+557 goto550
+558 gosub565:s=s+1:ifs>mthens=0
+559 goto550
+560 printmid$("strintwisdexconcha",x*3+1,3);:return
+565 sys8213,p,q+s,l:return
+570 s=0
+571 gosub625:sys8252,c%(1,cs)+10:sys8252,c%(0,cs):sys8255,c%(5,cs)
+576 print"level"c%(6,cs)"{left}"mid$(" +*",c%(7,cs)+1,1),"age"c%(2,cs)"{left}/";:x=fnrc(6)*15
+577 printmid$(str$(x),2);:ifx=0thenprint"{left}???
+578 sys8222,0,4:fory=0to2:x=y:gosub560:printc%(8+x,cs),:x=y+3:gosub560
+580 printc%(8+x,cs):next:print"{down}hit points"c%(14,cs)"{left}/"mid$(str$(c%(15,cs)),2)
+582 print"spell units"c%(16,cs)"{left}/"mid$(str$(c%(17,cs)),2)
+584 gosub600:print"{down}damage 1d"mid$(str$(da),2);:ifbd>0thenprint"+"mid$(str$(bd),2);
+586 print:print"thaco:"str$(th),"ac:"ac:forx=0to6
+587 sys8222,0,x+14
+588 printmid$(" weapon  armor shield    gemjewelry potion scroll",x*7+1,7)"-";
+590 sys8237,c%(18+x,cs):next
+591 a$="{rvon}  return=remove item ":gosub610:p=0:q=14:l=22:m=6
+592 gosub550:ifs=-1thenreturn
+593 ifc%(18+s,cs)=0thengosub565:goto591
+594 forx=0to12:ifi%(x)=0theni%(x)=c%(18+s,cs):c%(18+s,cs)=0:x=99:next:goto571
+595 next:a$="{rvon}  inventory is full! ":gosub610:gosub615:goto591
+600 y=1:da=fni(c%(18,cs))-(c%(18,cs)=0andfncl(2)=1)*c%(6,cs):y=2:bd=fni(c%(18,cs))+int(c%(8,cs)/6)
+602 th=21-bd-c%(6,cs):ac=10-int(c%(11,cs)/6):forx=19to22
+604 ac=ac-fni(c%(x,cs)):next:return
+610 sys8222,0,22:printa$"{rvof}";:sys8231:return
+615 sys8273,4:return
+620 print"{rvof}{home}{3 down}gold"gp"{left}   ":return
+625 sys8192:print"{clr}"n$(cs)tab(19)"( )";:poke4116,peek(981+c%(4,cs)):return
+630 a$="  inventory is empty":gosub610:gosub530:return
+635 forx=s to11:i%(x)=i%(x+1):next:i%(12)=0:return
+640 a=0:forx=0to7:ifc%(4,x)=1orc%(4,x)=2thena=1
+642 next:return
+645 a=-(c%(4,cs)=1orc%(4,cs)=2):return
+650 sys8192:print"{clr}{2 down}load"chr$(34)a$chr$(34)","peek(1020)"{home}";:poke198,5:poke631,13:poke632,82:poke633,213:poke634,13:poke43,1:poke44,m:pokem*256,0:new
+670 sys8219:print"{2 down}{wht}"spc(11-len(a$)/2)a$:return
+671 gosub670:sys8273,4:return
+680 d=9999
+681 c%(14,cs)=c%(14,cs)+d:ifc%(14,cs)>c%(15,cs)thenc%(14,cs)=c%(15,cs)
+682 return
+683 c%(16,cs)=c%(17,cs):return
+684 c%(4,cs)=1:return
+700 c2=cs:sys8192:sys8225,2,1:sys8219:s=0:print"{down}{yel} you have"gp"gp":print"{wht} donate 1000 gold for":print" full heal/revive y/n
+701 gosub530:ifa$="y"then710
+702 goto108
+710 ifgp<1000thena$="not enough money":gosub671:goto108
+711 gosub645:ifc%(4,cs)=0orc%(15,cs)=0thena$="cannot revive player":gosub671:goto108
+712 gp=gp-1000:c%(4,cs)=1:gosub680:c=cs:gosub520:sys8267,cs:a$="fully healed":gosub671:goto108
+3000 ifpeek(14335)=1thensys8585,x
+3001 return
+3100 ifpeek(14335)=1andpeek(14334)=1thensys8588
+3101 return
+3200 ifpeek(14335)=1thensys8591
+3201 return

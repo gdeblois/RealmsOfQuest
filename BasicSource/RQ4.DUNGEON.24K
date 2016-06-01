@@ -1,0 +1,325 @@
+0 gosub290:goto8
+1 gosub290:poke36879,10:poke36869,206:goto800
+2 goto890
+3 goto1100
+4 sys8225,m%(ms,12),1:return
+5 goto530
+6 goto109
+7 sys8228,ms:gosub645:return
+8 sys8192:gosub3200:sys8270,48+lv:x=1:gosub3000:gosub3200
+9 gosub1990:sys8192
+109 a$="in the dungeon":gosub670:gosub7
+110 sys8267,cs:gosub3100
+111 gosub530:ifa$="i"thenms=4:gosub7:gosub425:ifpeek(1016)>0then400
+113 ifa$="j"thenms=5:x=-1:gosub429
+115 ifa$="l"thenms=11:x=1:gosub429
+120 ifa$="k"thenms=10:gosub7:goto440
+128 ifa$="{left}"thencs=(cs-1)and7:goto110
+130 ifa$="{rght}"thencs=(cs+1)and7:goto110
+132 ifa$="{up}"thenms=-(ms=0)*12+ms-1:gosub7:goto111
+134 ifa$="{down}"thenms=(ms+1)*-(ms<11):gosub7:goto111
+136 ifa$>="1"anda$<="8"andcs<>x-1thencs=x-1:goto110
+138 ifa$="v"thenms=8:gosub7:ifc%(4,cs)>0thengosub570:goto9
+140 ifa$="q"thenms=6:gosub7:gosub3200:goto275
+141 ifa$="e"thenms=1:gosub7:ifc%(4,cs)>0then340
+142 ifa$="o"thenms=2:gosub7:goto370
+143 ifa$="c"thenms=0:gosub7:ifaandc%(16,cs)>0then1850
+144 ifa$="u"thenms=7:gosub7:ifathenu=1:gosub1070:gosub1990:sys8195:on-(s<0)goto6:goto1870
+148 ifa$=chr$(13)thena$=mid$("ceo ijquv kl",ms+1,1):goto113
+150 goto111
+275 a$="y=confirm quit":gosub670:gosub530:ifa$<>"y"then6
+276 goto381
+281 sys8192:open2,peek(1020),2,"`0:rq4.save 5,s,w":a$=chr$(13):print#2,gp;a$;mo;a$;lv;a$;rm;a$;di;a$;cs
+283 fory=0to7:print#2,n$(y):forx=0to24:print#2,c%(x,y):next:next:forx=0to12
+284 print#2,i%(x):next:forx=0to9:print#2,d%(x):next:close2:return
+290 sys8192:gosub500:poke36879,10:poke36869,206:sys31238
+291 open2,peek(1020),2,"rq4.save 5,s,r":input#2,gp,mo,lv,rm,di,cs
+292 fory=0to7:input#2,n$(y):forx=0to24:input#2,c%(x,y):next:next:forx=0to12
+293 input#2,i%(x):next:forx=0to9:input#2,d%(x):next:close2:return
+340 gosub625:print"{rvof}viewing inventory":gosub620:a=c%(5,cs):forx=0to12:sys8222,5,6+x
+341 i=i%(x):ifi=0thenm=x-1:x=99:next:goto361
+342 y=0:t=fni(i):y=6:c=fni(i)
+344 ift<3andfncl(2+t)<(cand3)+1then355
+345 ift=1andfncl(3)=2and(cand4)=4then355
+346 ift=3andfncl(5)=0then355
+348 ift>3andc=8andfncl(6)=0then355
+350 ift>3andc=16andfncl(7)=0then355
+351 ifc%(17+t,cs)>0then355
+352 poke4231+x*22,43
+355 sys8237,i
+360 next:m=12
+361 ifm<0thengosub630:goto9
+362 sys8222,2,20:print"+= can be equipped
+363 a$="select item to equip":gosub610:p=0:q=6:l=22:s=0
+364 gosub550:ifs=-1then9
+365 ify=20thengosub635:a$="dropped the item":gosub610:gosub615:goto340
+366 y=0:t=fni(i%(s)):ifpeek(4231+s*22)=160thengosub565:goto364
+367 c%(17+t,cs)=i%(s):gosub635:a$="you equip the item":gosub610:gosub615:goto340
+370 foro=0to6:sys8267,o:a$="which char for #"+str$(o+1):gosub670
+371 gosub530:ifa$=" "theno=8:goto375
+372 ifx<1orx>8then371
+373 sys8192:p=x-1:a$=n$(o):n$(o)=n$(p):n$(p)=a$:forx=0to24:q=c%(x,o):c%(x,o)=c%(x,p)
+374 c%(x,p)=q:next:c=o:gosub520:c=p:gosub520
+375 next:sys8192:goto6
+380 gosub281
+381 a$="rq4.menu":m=64:goto650
+400 r=peek(1012):ifr=0then409
+401 ifr=14and(d%(lv)and16)=0thensys8249,7:goto9
+402 ifr=6andpeek(4261)=32andpeek(4271)=32thenrm=peek(5136)+peek(5137)*256:gosub430:goto9
+403 ifr=3andpeek(4271)=32andpeek(4267)=32then450
+404 if(r=4orr=5)andpeek(4271)=32andpeek(4261)=32thenrm=rm+z:x=1-(r=5)*2:gosub429:goto111
+409 gosub646:ifa<1thena=0:goto661
+410 rm=rm+z:gosub430:r=peek(1011)-9:ifr<0then420
+411 if(d%(lv)and(2^r))>0then420
+412 ifr=3thensys8225,2,1:forx=0to11:ifi%(x)=0theni%(x)=peek(5138):x=13:next:goto414
+413 ifr=3thennext:i%(x)=peek(5138):goto9
+414 d%(lv)=d%(lv)+2^r:sys8249,r:ifr=6thensys8192:x=lv+1:poke16339,10*x:poke16342,31-x*3:poke16343,x:poke16345,10+x*2:forx=0to1:poke998+x,peek(5140+x):next:poke994,peek(5139):forx=0to1:y=peek(998+x):a=int(y/10):b=y-a*10:sys8258,a,b,x:next:poke1000,100:poke1001,1:poke997,3:sys8258,17,17,2:x=2:gosub3000:gosub3200:goto804
+419 goto9
+420 sys8264:sys31232:ifpeek(4263)=32andfnr(12)=1then800
+421 goto111
+425 y=4584+rm:z=(di=1)-(di=0)*22+(di=2)*22-(di=3):sys31235,yand255,y/256,di:return
+429 gosub7:di=di+x:di=diand3
+430 sys8243:gosub425:sys31232:return
+440 r=peek(1011):ifr=1thenlv=lv-1:iflv<0thenlv=0:gosub3200:poke1002,1:goto380
+441 ifr=2orr=3thenlv=lv+1
+449 onrgoto8,8,8:goto111
+450 rm=rm+z:gosub430:a$="fell in a pit!":gosub670:b=cs:forcs=0to7:sys8267,8:gosub645:ifathend=fnr(10+5*lv):gosub660
+451 next:cs=b:sys8267,cs:lv=lv+1:goto8
+500 dimn$(7),c%(24,7),d%(9),i%(13),m%(2,12),b%(5,7)
+502 deffnr(x)=int(rnd(1)*x+1):deffnrc(x)=peek(38400+c%(0,cs)*8+x)and15:deffns(x)=peek(38708+sp*90+sl*15+ss*3+x)and15:deffnm(x)=peek(15239+m%(ms,0)*11+x)
+503 deffni(x)=peek(12764+x*10+y):deffnv(x)=peek(12772+x*10)+peek(12773+x*10)*256
+504 deffncl(x)=peek(38480+c%(5,cs)*19+x)and15:deffnc2(x)=peek(38493+s*19+x)
+509 return
+510 forc=0to7:gosub520:next:return
+520 poke4426+c*22,49+c:sys8210,c:ifc%(4,c)=0thenreturn
+522 sys8222,2,15+c:printn$(c);:sys8222,12,15+c:printright$("  "+str$(c%(14,c)),4);
+523 print"/"mid$(str$(c%(15,c)),2);:ifc%(7,c)thenpoke4427+c*22,44-c%(7,c)
+526 poke4447+c*22,asc(mid$("gpzsd",c%(4,c)))-64:return
+530 sys8195
+531 geta$:ifa$=""then531
+532 ifa$="{f5}"thenpoke14334,1-peek(14334):on2-peek(14334)gosub3100,3200:goto531
+533 x=val(a$):y=asc(a$):return
+534 gosub530:ifa$<>" "then534
+535 return
+549 s=0:p=0:l=22
+550 gosub565
+551 gosub530:ify=145thenx=-1:goto557
+552 ify=17thenx=1:goto557
+553 ify=13ory=20thenreturn
+554 ify=32thens=-1:return
+556 goto551
+557 gosub565:s=s+x:ifs<0thens=m
+558 ifs>mthens=0
+559 goto550
+565 sys8213,p,q+s,l:return
+570 s=0
+571 u=2:gosub1070
+591 a$="return=remove item":gosub610:p=0:q=14:l=22:m=6
+592 gosub550:ifs=-1thenreturn
+593 ifc%(18+s,cs)=0thengosub565:goto591
+594 forx=0to12:ifi%(x)=0theni%(x)=c%(18+s,cs):c%(18+s,cs)=0:x=99:next:goto571
+595 next:a$="inventory is full!":gosub610:gosub615:goto591
+600 y=1:da=fni(c%(18,cs))-(c%(18,cs)=0andfncl(2)=1)*c%(6,cs):y=2:bd=fni(c%(18,cs))+int(c%(8,cs)/6)
+602 th=21-bd-c%(6,cs):ac=10-int(c%(11,cs)/6):forx=19to22
+604 ac=ac-fni(c%(x,cs)):next:return
+610 sys8222,0,22:sys8210,7:gosub672:sys8231:return
+615 sys8273,4:return
+620 print"{rvof}{home}{3 down}gold"gp"{left}   ":return
+625 sys8192:print"{clr}"n$(cs)tab(19)"( )";:poke4116,peek(981+c%(4,cs)):return
+630 a$="inventory is empty":gosub610:gosub530:return
+635 forx=s to11:i%(x)=i%(x+1):next:i%(12)=0:return
+640 a=0:forx=0to7:ifc%(4,x)=1orc%(4,x)=2thena=1
+642 next:return
+643 gosub520:ifx=csthensys8267,cs
+644 return
+645 a=-(c%(4,cs)=1orc%(4,cs)=2):return
+646 a=0:forx=0to7:y=c%(4,x):ify=1thena=a+1:goto649
+647 ify=2thena=a+1:c%(14,x)=c%(14,x)-1:c=x:gosub643:ifc%(14,x)<1thenc%(14,x)=0:c%(4,x)=5:gosub643:a=a-1:goto649
+649 next:return
+650 sys8192:print"{clr}{2 down}load"chr$(34)a$chr$(34)","peek(1020)"{home}";:poke198,5:poke631,13:poke632,82:poke633,213:poke634,13:poke43,1:poke44,m:pokem*256,0:new
+660 c%(14,cs)=c%(14,cs)-d:ifc%(14,cs)<1thenc%(14,cs)=0:c%(4,cs)=5
+661 c=cs:gosub520:sys8267,cs:gosub640:ifa=0thena$="party is dead!":gosub670:gosub534:m=64:a$="rq4.menu":gosub3200:goto650
+662 return
+670 sys8219:print"{2 down}{wht}"spc(11-len(a$)/2)a$:return
+671 gosub670:sys8273,4:return
+672 printspc(11-len(a$)/2)a$;:return
+800 x=2:gosub3000:gosub3200:sys8192:poke1001,0:forx=0to5:fory=0to7:b%(x,y)=0:next:next
+801 nm=fnr(3):if(lv=0andnm=3)or(lv=9andnm=1)thennm=2
+802 poke997,nm:ml=lv+2-nm:forms=0tonm-1:poke998+ms,fnr(10)-1+ml*10:sys8258,ml,peek(998+ms)-ml*10,ms:next
+803 gosub645:ifa=0thencs=(cs+1)and7:goto804
+804 poke995,1-(fnr(c%(11,cs)+8)>7orpeek(4269)=5):sys8267,cs:a$="encounter!":sys8195:gosub671
+805 f=1:c2=cs:gosub990:sys8267,c2:nm=peek(997):forms=0tonm-1:m%(ms,12)=ms:m%(ms,0)=peek(998+ms):m%(ms,10)=fnr(7)+2:y=0:forx=1tofnm(0):y=y+fnr(fnm(1)):next:m%(ms,11)=y:forx=1tom%(ms,10):m%(ms,x)=y:next:next:ifpeek(1001)thenm%(2,10)=1
+806 gosub3100:iff=peek(995)then900
+819 ifc%(4,c2)<>1andc%(4,c2)<>2thenc2=(c2+1)and7:goto819
+820 sys8267,c2:gosub882:ms=0:gosub4:print"{wht}{rvon}f{rvof}ight {rvon}g{rvof}reet  {rvon}r{rvof}un
+823 gosub5:ifa$="f"then840
+824 ifa$="g"then830
+825 ifa$="r"then835
+829 goto823
+830 iff=0orfnm(2)>0orfnr(150)>c%(13,c2)then840
+831 a$="greet you":gosub671:goto1029
+835 iffnr(c%(11,c2)+15)<12then840
+836 a$="escape":gosub671:goto1069
+840 cs=0:f=0
+841 gosub645:ifa=0then2
+842 ms=0:gosub4:forx=0to1:b%(x,cs)=0:next:sys8267,cs:sys8219:print"{down} {rvon}a{rvof}ttack {rvon}b{rvof}ackstab {rvon}c{rvof}ast":print"{down} {rvon}d{rvof}efend {rvon}u{rvof}se item {rvon}v{rvof}iew
+843 gosub5:ifa$="v"thenu=0:gosub1070:gosub990:goto842
+844 ifa$="u"thenu=1:gosub1070:gosub990:sys8195:on-(s<0)goto2:goto870
+845 ifa$="a"then1000
+846 ifa$="d"thenb%(0,cs)=4:goto2
+847 ifa$="b"andfncl(1)=1thenb%(0,cs)=-4:b%(1,cs)=8:goto1000
+848 ifa$="c"andc%(16,cs)>0then850
+849 goto843
+850 sp=-(fncl(6)>0)-(fncl(7)>0)*2-1:on-(sp<2)goto854:a$="(w)izard or (p)riest":gosub670
+851 gosub5:on-(y=32)goto842:ifa$="w"thensp=0:goto854
+852 ifa$="p"thensp=1:goto854
+853 goto851
+854 a$="level 1-6":gosub670
+855 gosub5:on-(y=32)goto842:sl=x-1:ifx<1orx>6then855
+856 ifx>fncl(6+sp)orc%(6,cs)-fncl(8+sp)<sl*2-(sl=5)orc%(16,cs)<xthen855
+857 sys8219:forx=0to4:gosub865:print:next
+858 q=9:m=4:gosub549:ifs<0then842
+859 c%(16,cs)=c%(16,cs)-sl-1:ss=s
+860 sys8219:print"{2 down}";:x=ss:gosub865:sys8273,2:sys8219:onfns(0)+1goto3,1120,3,3,3,2,2,1130,2,1130,1130,3,3
+865 print"   ";:sys8234,sp*30+sl*5+x:return
+870 gosub4:sys8267,cs:sys8195:i=c%(18+s,cs):y=3:a=fni(i):ifa>63ora=0thena$="ok":gosub671:goto2
+871 y=4:iffnr(100)<=fni(i)theny=5:c%(18+s,cs)=fni(i)
+872 a=a-1:sp=int(a/30):a=a-sp*30:sl=int(a/5):ss=a-sl*5:goto860
+882 sys8219:forms=0tonm-1:print"   ("chr$(m%(ms,10)+48)")";:a$="":gosub989:next:sys8222,3,13:return
+883 gosub4:sys8219:print"{down} "n$(cs)" hits for":printd"damage":sys8273,1:m%(ms,ma)=m%(ms,ma)-d:ifm%(ms,ma)>0thenreturn
+885 sys8222,1,12:gosub989:sys8273,2:ifa$="dies"andc%(7,cs)<2thenx=999*(fnm(6)/c%(6,cs))/(2+fncl(12)+fnrc(7))+2+lv:iffnr(999)<xthenc%(7,cs)=c%(7,cs)+1:c=cs:gosub520:sys8267,cs
+886 forx=mato8:m%(ms,x)=m%(ms,x+1):next:m%(ms,9)=0:m%(ms,10)=m%(ms,10)-1:ifm%(ms,10)>0thenreturn
+887 ifms<2thenfory=ms to1:forx=0to12:m%(y,x)=m%(y+1,x):next:next
+888 nm=nm-1:return
+890 cs=cs+1:ifcs<8then841
+900 sys8195:ms=-1:m1=0:f=0
+901 sys8219:ms=ms+1:ifms>=nmthen819
+902 sys8267,8:gosub4:m1=m1+1:ifm1>m%(ms,10)thenm1=0:goto901
+910 cs=peek(940+fnr(40)):gosub645:ifa=0then910
+911 onfnm(6+fnr(4))+1goto912,930,932,934,936,938,940,942,944,946,948,950
+912 na=fnm(4):gosub600
+913 r=fnr(20):ifr=1or(r<21+b%(0,cs)+b%(2,cs)-fnm(0)-acandr<20)then928
+914 d=fnr(fnm(5))
+915 a$="hits":gosub988
+916 sys8222,1,11:print"for"d"damage
+917 gosub660:sys8273,1:ifc%(14,cs)<1thenna=0:sys8222,1,12:printn$(cs)" dies":sys8273,2
+928 na=na-1:ifna>0then913
+929 goto902
+930 m%(ms,m1)=m%(ms,11):a$="heals":goto984
+932 d=fnr(fnm(5)*fnm(4)):a$="casts":gosub988:goto916
+934 b=12:c=2:a$="poison":goto986
+936 x=m%(ms,10):ifx<9thenm%(ms,10)=x+1:m%(ms,x)=m%(ms,11)
+937 a$="summon":goto984
+938 b=10:a$="stuns":goto941
+940 b=13:a$="charms
+941 c=3:goto986
+942 b=9:c=4:a$="gazes":goto986
+944 a$="breath":gosub988:sys8273,1:d=fnr(fnm(5)*fnm(4)):forcs=0to7:gosub645:onagosub660:next:goto902
+946 b=12:c=5:a$="kills":goto986
+948 b=11:gosub985:ifathenc%(19,cs)=0:sys8267,cs:a$="erodes":goto984
+949 goto902
+950 b=12:gosub985:ifaandc%(6,cs)>1then952
+951 goto902
+952 c%(6,cs)=c%(6,cs)-1:a$="drains":x=c%(6,cs)+2:ifx>fncl(8)orx>fncl(9)thenc%(17,cs)=c%(17,cs)-fncl(10):c%(16,cs)=c%(16,cs)-fncl(10):ifc%(16,cs)<0thenc%(16,cs)=0
+953 d=fnr(fncl(0))+int(c%(12,cs)/6):c%(15,cs)=c%(15,cs)-d:ifc%(15,cs)<1thenc%(15,cs)=1
+954 gosub660
+984 gosub988:sys8273,2:goto902
+985 a=fnr(9+fnm(0)+c%(b,cs)+b%(5,cs))<9+fnm(0):return
+986 gosub985:ifathenc%(4,cs)=c:c%(14,cs)=c%(14,cs)*-(c<5):gosub988:gosub661:sys8273,2
+987 goto902
+988 sys8225,m%(ms,12),fnr(5)+2:sys8219:print"{down} ";
+989 sys8261,m%(ms,0):print" "a$:return
+990 sys8192:sys8198:goto510
+1000 gosub600:ms=0:na=b%(4,cs)-(c%(6,cs)>9)
+1001 sys8219:r=fnr(20):ifr=1or(r<th-(fnm(3)-25)andr<20)thenprint"{down}  "n$(cs)" misses.":sys8273,1:goto1020
+1002 d=(fnr(da+b%(3,cs))+bd)*(1-(r=20))+b%(1,cs)+b%(3,cs):ma=1:a$="dies":gosub883:ifnm<=0then1029
+1020 ifna>0thenna=na-1:goto1001
+1021 goto2
+1028 ma=99:next
+1029 sys8267,c2:a$="victory!":gosub671:iffnr(2)=1orpeek(1001)thencs=c2:goto1031
+1030 goto1069
+1031 x=3:gosub3000:gosub3200:sys8270,84:sys8225,0,1:sys8267,c2:sys8195:gosub615:a$="treasure found":gosub671:t=0
+1032 gosub3100:sys8219:print"{2 down}  {rvon}d{rvof}isarm {rvon}o{rvof}pen  {rvon}l{rvof}eave
+1033 gosub530:ifa$="l"then1069
+1034 ifa$="o"then1040
+1035 ifa$="d"andt=0then1037
+1036 goto1033
+1037 sys8219:forcs=0to7:gosub645:ifaandfncl(11)=1andfnr(10+lv+c%(11,cs))<c%(11,cs)thent=2:a$="you disarm the trap!":gosub671:cs=9:next:goto1032
+1038 next:t=1:a$="found no traps":gosub671:goto1032
+1040 ift=2orfnr(2)=1then1050
+1041 t=fnr(2):sys8225,2,9-t*2:a$=mid$("explosion!poison gas",t*10-9,10):gosub671:forcs=0to7:sys8267,cs:gosub645:ifa=0then1046
+1042 ift=1thend=fnr(10*(lv+1)):gosub660
+1043 ift=2theniffnr(10+lv+c%(12,cs))>c%(12,cs)thenc%(4,cs)=2:c=cs:gosub520
+1046 sys8267,cs:next
+1050 sys8267,c2:sys8225,1,1:sys8219:x=fnr((99+peek(1001)*9999)*(lv+1)):gp=gp+x:print"{down}  you find"x"gold":ifpeek(1001)=1thenx=peek(994):goto1053
+1051 x=fnr(137):y=7:iffni(x)<lv+2then1053
+1052 goto1056
+1053 sys8222,5,12:print"and an item.
+1054 fory=0to11:ifi%(y)=0theni%(y)=x:y=13:next:goto1056
+1055 next:i%(y)=x
+1056 gosub615
+1069 cs=c2:goto8
+1070 gosub625:sys8252,c%(1,cs)+10:sys8252,c%(0,cs):sys8255,c%(5,cs):print"level"c%(6,cs)"{left}"mid$(" +*",c%(7,cs)+1,1),"age"c%(2,cs)"{left}/";:x=fnrc(6)*15:printmid$(str$(x),2);:ifx=0thenprint"{left}???
+1078 sys8222,0,4:fory=0to2:sys8255,12+y:printc%(8+y,cs),:sys8255,15+y:printc%(11+y,cs):next:print"{down}hit points"c%(14,cs)"{left}/"mid$(str$(c%(15,cs)),2):print"spell units"c%(16,cs)"{left}/"mid$(str$(c%(17,cs)),2):gosub600:print"{down}damage 1d"mid$(str$(da),2);:ifbd>0thenprint"+"mid$(str$(bd),2);
+1086 print:print"thaco:"th,"ac:"ac:forx=0to6:sys8222,0,x+14:printmid$(" weapon  armor shield    gemjewelry potion scroll",x*7+1,7)"-";:sys8237,c%(18+x,cs):next:ifu=0thena$="view":gosub610:goto5
+1087 ifu=2thenreturn
+1091 a$="use item":gosub610:q=14:m=6:gosub549:ifs<0thenreturn
+1093 ifc%(18+s,cs)=0thengosub565:goto1091
+1094 return
+1100 d=fnr(c%(9,cs))*fns(1)+c%(6,cs):iffns(2)=3ornm=1thenms=0:goto1104
+1102 gosub882:print" select monster":q=9:m=nm-1:gosub549:ms=s:ifs<0thenms=0
+1104 gosub4:forma=1tom%(ms,10)*-(fns(2)>1):sys8219:iffns(0)=2thena$="dies":gosub883:ifnm<=0then1028
+1105 iffns(0)=0and((sp=0andfnm(2)<2)or(sp=1andfnm(2)=2))thena$="lured":gosub1115:on-(nm<=0)goto1028:ifathenb%(3,cs)=fnm(5)
+1106 iffns(0)=3andfnm(2)<2thena$="out":gosub1115:ifnm<=0then1028
+1107 iffns(0)=4andfnm(2)<2thengosub1114:ifnm<=0then1028
+1108 a=fns(0):ifa>10andfnm(2)=a-9thengosub1114:ifnm<=0then1028
+1109 next:iffns(2)=3andms<nm-1thenms=ms+1:goto1104
+1110 goto2
+1114 a$="dies
+1115 x=c%(9+sp,cs)+c%(6,cs)*fns(2):a=fnr(x+fnm(0)+9)<x:on-agosub885:return
+1120 x=fnr(100):y=15228:ifpeek(y+6+x*11)<=fns(1)thend=peek(y+2+x*11):if(sp=0andd<2)or(sp=1andd=3)thenb%(3,cs)=peek(y+5+x*11):print"{2 down}{2 rght}call ";:sys8261,x-1:sys8273,2:goto2
+1121 goto1120
+1130 iffns(2)<2thengosub1132:goto2
+1131 forc=0to7:gosub1133:next:goto2
+1132 a$="select 1-8":gosub670:gosub5:c=x-1:ifc<0orc>7then1132
+1133 iffns(0)=7thena=fns(1)and3:b=fns(1)-a:b%(peek(987+a),c)=2+b
+1134 iffns(0)=9andc%(4,c)=fns(1)andc%(15,c)>0thenc%(4,c)=1:iffns(1)=5thenc%(14,c)=1:ifsl=5then1138
+1135 iffns(0)=10andc%(4,c)<4thend=fnr(fns(1)*c%(10,cs))+c%(6,cs):c%(14,c)=c%(14,c)+d:ifc%(14,c)>c%(15,c)then1138
+1137 sys8267,8:gosub520:sys8267,c:return
+1138 c%(14,c)=c%(15,c):goto1137
+1850 sp=-(fncl(6)>0)-(fncl(7)>0)*2-1:on-(sp<2)goto1854:a$="(w)izard or (p)riest":gosub670
+1851 gosub530:on-(y=32)goto6:ifa$="w"thensp=0:goto1854
+1852 ifa$="p"thensp=1:goto1854
+1853 goto1851
+1854 a$="level 1-6":gosub670
+1855 gosub530:on-(y=32)goto6:sl=x-1:ifx<1orx>6then1855
+1856 ifx>fncl(6+sp)orc%(6,cs)-fncl(8+sp)<sl*2-(sl=5)orc%(16,cs)<xthen1855
+1857 sys8219:forx=0to4:gosub865:print:next
+1858 q=9:m=4:gosub549:ifs<0then6
+1859 c%(16,cs)=c%(16,cs)-sl-1:ss=s
+1860 sys8219:print"{2 down}";:x=ss:gosub865:sys8273,2:sys8219:onfns(0)+1goto6,6,6,6,6,1900,1905,6,1910,2130,2130,6,6
+1870 i=c%(18+s,cs):y=3:a=fni(i):ifa=0then6
+1871 y=4:iffnr(100)<=fni(i)theny=5:c%(18+s,cs)=fni(i)
+1872 ifa=129theny=c%(1,cs):c%(1,cs)=1-y:a=141-5*y
+1873 ifa>127thena=aand127:c%(a,cs)=c%(a,cs)+1+(a=2)*2:goto6
+1874 ifa=64thenc%(16,cs)=c%(17,cs):goto6
+1875 a=a-1:sp=int(a/30):a=a-sp*30:sl=int(a/5):ss=a-sl*5:goto1860
+1900 poke1004+fns(1),c%(9+sp,cs)*4:sys8264:gosub430:goto6
+1905 print"{down}       level"lv+1:x=int(rm/22):print"{down}     at"rm-x*22+1","x+1:sys8273,8:goto6
+1910 a$="teleported":gosub671:y=fns(1):ify=1thenrm=fnr(506)-1:goto9
+1911 ify=10thenlv=9:goto8
+1912 lv=0:goto8
+1990 sys8192:sys8198:sys8264:gosub430
+1991 a$="{9 rght}{wht}{rvof}":print"{home}"a$"cast   quit  "a$"equip  use   "a$;
+1992 print"order  view  "a$"{down}i-fwd  k-limb"a$"j-left l-rght":gosub510:sys8267,cs:gosub7:return
+2130 iffns(2)<2thengosub2132:goto6
+2131 forc=0to7:gosub2134:next:goto6
+2132 a$="select 1-8":gosub670:gosub530:c=x-1:ifc<0orc>7then2132
+2134 iffns(0)=9andc%(4,c)=fns(1)andc%(15,c)>0thenc%(4,c)=1:iffns(1)=5thenc%(14,c)=1:ifsl=5then2138
+2135 iffns(0)=10andc%(4,c)<4thend=fnr(fns(1)*c%(10,cs))+c%(6,cs):c%(14,c)=c%(14,c)+d:ifc%(14,c)>c%(15,c)then2138
+2137 sys8267,8:gosub520:sys8267,c:return
+2138 c%(14,c)=c%(15,c):goto2137
+3000 sys8585,x:return
+3100 ifpeek(14334)=1thensys8588
+3101 return
+3200 sys8591:return

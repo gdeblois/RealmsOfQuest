@@ -1,0 +1,14 @@
+3 ifa=0thena=1:poke14335,0:poke992,0:poke1023,peek(36865):gosub50:d=peek(186):poke1020,d
+4 ifa=1thena=2:poke993,1:load"rq4.font 1",d,1
+5 ifa=2thena=3:load"rq4.38400",d,1
+6 ifa=3thena=4:load"rq4.673",d,1
+7 ifa=4thena=5:load"rq4.828",d,1
+8 ifa=5thena=6:load"rq4.8192",d,1
+9 ifa=6andfre(8)>20000thena=7:poke992,1:load"rq4.b",d,1
+10 poke14334,1:ifa=7thena=8:poke14335,1:load"rq4.8585",d,1
+11 ifa=8thenpoke52,122:poke56,122:clr:d=peek(1020):a=9:load"rq4.31232",d,1
+14 poke1002,0:poke36879,42:print"{red}{clr}{2 down}load"chr$(34)"rq4.menu"chr$(34)","d"{home}";:poke198,5:poke631,13:poke632,82:poke633,85:poke634,78:poke635,13:mm=56+peek(992)*8:poke43,1:poke44,mm:pokemm*256,0:poke36869,206:new
+50 poke36865,255:poke36879,10:print"{blu}{clr}{rvon}   acknowledgements   {rvof}{down}{cyn}rene guertin: ultimatequest (co-creator).":print"{down}{grn}yvan deslauriers: gametester and editor.":print"{down}{yel}bry henry: artwork fordocs and packaging.
+70 print"{down}{cyn}spidergypsy: more art.":print"{grn}kenz: publisher.":print"{down}{yel}rubygolem: blogger.":print"{down}{cyn}shane fell: please seehelpfindshanefell.com":print"{down}{pur}dedicated to samantha.
+80 print"{rvon}{blu}      thank you.     {home}":poke4601,160:poke38393,6:poke36865,peek(1023):forx=0to5999:next:return
+

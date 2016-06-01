@@ -1,0 +1,51 @@
+5 gosub290:poke36879,10:poke36869,206
+9 gosub990:c2=cs:goto1031
+282 sys8192:open2,peek(1020),2,"`0:rq4.save 5,s,w":a$=chr$(13):print#2,gp;a$;mo;a$;lv;a$;rm;a$;di;a$;cs
+283 fory=0to7:print#2,n$(y):forx=0to24:print#2,c%(x,y):next:next:forx=0to12
+284 print#2,i%(x):next:forx=0to9:print#2,d%(x):next:close2:return
+290 sys8192:gosub500:open2,peek(1020),2,"rq4.save 5,s,r":input#2,gp,mo,lv,rm,di,cs:fory=0to7:input#2,n$(y):forx=0to24:input#2,c%(x,y):next:next:forx=0to12:input#2,i%(x):next:forx=0to9:input#2,d%(x):next:close2:return
+381 gosub282:m=64:a$="rq4.dungeon":goto650
+500 dimn$(7),c%(24,7),d%(9),i%(12):deffnr(x)=int(rnd(1)*x+1):deffnrc(x)=peek(38400+c%(0,cs)*8+x)and15:deffni(x)=peek(12764+x*10+y):deffnv(x)=peek(12772+x*10)+peek(12773+x*10)*256:deffncl(x)=peek(38480+c%(5,cs)*19+x)and15
+501 deffnc2(x)=peek(38493+s*19+x):deffnm(x)=peek(15419+m%(ms,0)*11+x):return
+510 forc=0to7:gosub520:next:return
+520 poke4426+c*22,49+c:sys8210,c:ifc%(4,c)=0thenreturn
+522 sys8222,2,15+c:printn$(c);:sys8222,12,15+c:printright$("  "+str$(c%(14,c)),4);
+523 print"/"mid$(str$(c%(15,c)),2);:ifc%(7,c)thenpoke4427+c*22,44-c%(7,c)
+526 poke4447+c*22,asc(mid$("gpzsd",c%(4,c)))-64:return
+530 sys8195
+531 geta$:ifa$=""then531
+532 x=val(a$):y=asc(a$):return
+533 gosub530:ifa$<>" "then533
+534 return
+615 sys8273,4:return
+640 a=0:forx=0to7:ifc%(4,x)=1orc%(4,x)=2thena=1
+642 next:return
+645 a=-(c%(4,cs)=1orc%(4,cs)=2):return
+650 sys8192:print"{clr}{2 down}load"chr$(34)a$chr$(34)","peek(1020)"{home}";:poke198,5:poke631,13:poke632,82:poke633,213:poke634,13:poke43,1:poke44,m:pokem*256,0:new
+660 c%(14,cs)=c%(14,cs)-d:ifc%(14,cs)<1thenc%(14,cs)=0:c%(4,cs)=5
+661 c=cs:gosub520:sys8267,cs:gosub640:ifa=0thensys8219:print"{2 down}{cyn}    party is dead!{2 down}{wht}{3 left}(space)":gosub533:m=56:a$="rq4.menu":goto650
+662 return
+670 sys8219:print"{2 down}{wht}"spc(11-len(a$)/2)a$:return
+671 gosub670:goto615
+990 sys8192:sys8198:goto510
+1031 sys8270,84:sys8225,0,1:sys8267,c2:sys8195:gosub615:a$="treasure found":gosub671:t=0
+1032 sys8219:print"{2 down}  {rvon}d{rvof}isarm {rvon}o{rvof}pen  {rvon}l{rvof}eave
+1033 gosub530:ifa$="l"then1069
+1034 ifa$="o"then1040
+1035 ifa$="d"andt=0then1037
+1036 goto1033
+1037 sys8219:forcs=0to7:gosub645:ifaandfncl(11)=1andfnr(10+lv+c%(11,cs))<c%(11,cs)thent=2:a$="you disarm the trap!":gosub671:cs=9:next:goto1032
+1038 next:t=1:a$="found no traps":gosub671:goto1032
+1040 ift=2orfnr(2)=1then1050
+1041 t=fnr(2):sys8225,2,9-t*2:a$=mid$("explosion!poison gas",t*10-9,10):gosub671:forcs=0to7:sys8267,cs:gosub645:ifa=0then1046
+1042 ift=1thend=fnr(10*(lv+1)):gosub660
+1043 ift=2theniffnr(10+lv+c%(12,cs))>c%(12,cs)thenc%(4,cs)=2:c=cs:gosub520
+1046 sys8267,cs:next
+1050 sys8267,c2:sys8225,1,1:sys8219:x=fnr((99+peek(1001)*9999)*(lv+1)):gp=gp+x:print"{down}  you find"x"gold":ifpeek(1001)=1thenx=peek(994):goto1053
+1051 x=fnr(137):y=7:iffni(x)<lv+2then1053
+1052 goto1056
+1053 sys8222,5,12:print"and an item.
+1054 fory=0to11:ifi%(y)=0theni%(y)=x:y=13:next:goto1056
+1055 next:i%(y)=x
+1056 gosub615
+1069 cs=c2:goto381
